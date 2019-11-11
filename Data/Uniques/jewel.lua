@@ -1219,8 +1219,14 @@ League: Legion
 Source: Drops from Maraketh Legion
 Requires Level: 20
 Limited to: 1 Historic
+Variant: Deshret (Wind Dancer)
+Variant: Asenath (Dance with Death)
+Variant: Nasima (Second Sight)
 Radius: Large
-Denoted service of (500–8000) dekhara in the akhara of Deshret
+Implicits: 0
+{variant:1}Denoted service of (500-8000) dekhara in the akhara of Deshret
+{variant:2}Denoted service of (500-8000) dekhara in the akhara of Asenath
+{variant:3}Denoted service of (500-8000) dekhara in the akhara of Nasima
 Passives in radius are Conquered by the Maraketh
 Historic
 ]],[[
@@ -1230,9 +1236,15 @@ League: Legion
 Source: Drops from Eternal Legion
 Requires Level: 20
 Limited to: 1 Historic
+Variant: Cadiro (Supreme Decadence)
+Variant: Victario (Supreme Grandstanding)
+Variant: Chitus (Supreme Ego)
 Radius: Large
-Commissioned (2000–160000) coins to commemorate Cadiro
-Passives in radius are Conquered by the Eternal
+Implicits: 0
+{variant:1}Commissioned (2000-160000) coins to commemorate Cadiro
+{variant:2}Commissioned (2000-160000) coins to commemorate Victario
+{variant:3}Commissioned (2000-160000) coins to commemorate Chitus
+Passives in radius are Conquered by the Eternal Empire
 Historic
 ]],[[
 Glorious Vanity
@@ -1241,8 +1253,14 @@ League: Legion
 Source: Drops from Vaal Legion
 Requires Level: 20
 Limited to: 1 Historic
+Variant: Xibaqua (Divine Flesh)
+Variant: Zerphi (Eternal Youth)
+Variant: Doryani (Corrupted Soul)
 Radius: Large
-Bathed in the blood of (100-8000) sacrificed in the name of Doryani
+Implicits: 0
+{variant:1}Bathed in the blood of (100-8000) sacrificed in the name of Xibaqua
+{variant:2}Bathed in the blood of (100-8000) sacrificed in the name of Zerphi
+{variant:3}Bathed in the blood of (100-8000) sacrificed in the name of Doryani
 Passives in radius are Conquered by the Vaal
 Historic
 ]],[[
@@ -1252,8 +1270,14 @@ League: Legion
 Source: Drops from Karui Legion
 Requires Level: 20
 Limited to: 1 Historic
+Variant: Kaom (Strength of Blood)
+Variant: Rakiata (Tempered by War)
+Variant: Kiloava (Glancing Blows)
 Radius: Large
-Commanded leadership over (10000–18000) warriors under Kaom
+Implicits: 0
+{variant:1}Commanded leadership over (10000-18000) warriors under Kaom
+{variant:2}Commanded leadership over (10000-18000) warriors under Rakiata
+{variant:3}Commanded leadership over (10000-18000) warriors under Kiloava
 Passives in radius are Conquered by the Karui
 Historic
 ]],[[
@@ -1263,8 +1287,14 @@ League: Legion
 Source: Drops from Templar Legion
 Requires Level: 20
 Limited to: 1 Historic
+Variant: Venarius (The Agnostic)
+Variant: Dominus (Inner Conviction)
+Variant: Avarius (Power of Purpose)
 Radius: Large
-Carved to glorify (2000–10000) new faithful converted by High Templar Venarius
+Implicits: 0
+{variant:1}Carved to glorify (2000-10000) new faithful converted by High Templar Venarius
+{variant:2}Carved to glorify (2000-10000) new faithful converted by High Templar Dominus
+{variant:3}Carved to glorify (2000-10000) new faithful converted by High Templar Avarius
 Passives in radius are Conquered by the Templars
 Historic
 ]],

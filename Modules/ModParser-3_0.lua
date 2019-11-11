@@ -1683,6 +1683,9 @@ local specialModList = {
 	["socketed lightning spells [hd][ae][va][el] (%d+)%% increased spell damage if triggered"] = { },
 	["manifeste?d? dancing dervish disables both weapon slots"] = { },
 	["manifeste?d? dancing dervish dies when rampage ends"] = { },
+	-- Legion jewel
+	["bathed in the blood of %d+ sacrificed in the name of xibaqua"] = { mod("GrantedPassive", "LIST", "Divine Flesh") },
+	["bathed in the blood of %d+ sacrificed in the name of doryani"] = { mod("GrantedPassive", "LIST", "Corrupted Soul") },
 }
 local keystoneList = {
 	-- List of keystones that can be found on uniques
@@ -1851,6 +1854,15 @@ local function getSimpleConv(srcList, dst, type, remove, factor)
 		end
 	end
 end
+
+local function getLegionKeystoneConv(keystoneName)
+	return function(node, out, data)
+		if node then
+			return mod("GrantedPassive", "LIST", passive)
+		end
+	end
+end
+
 local jewelOtherFuncs = {
 	["Strength from Passives in Radius is Transformed to Dexterity"] = getSimpleConv({"Str"}, "Dex", "BASE", true),
 	["Dexterity from Passives in Radius is Transformed to Strength"] = getSimpleConv({"Dex"}, "Str", "BASE", true),
@@ -1911,6 +1923,52 @@ local jewelOtherFuncs = {
 			out:NewMod("AllocatedPassiveSkillHasNoEffect", "FLAG", true, data.modSource)
 		end
 	end,
+	["Passives in radius are Conquered by the Eternal Empire"] = function(node, out, data)
+		if node and node.type == "Normal" then
+			out:NewMod("PassiveSkillHasNoEffect", "FLAG", true, data.modSource)
+		end
+	end,
+	["Passives in radius are Conquered by the Vaal"] = function(node, out, data)
+		out:NewMod("PassiveSkillHasNoEffect", "FLAG", true, data.modSource)
+	end,
+	["Passives in radius are Conquered by the Maraketh"] = function(node, out, data)
+		if node then
+			if node.type == "Normal" then
+				out:NewMod("Dex", "BASE", 2, data.modSource)
+			elseif node.type == "Notable" then
+				out:NewMod("Dex", "BASE", 4, data.modSource)
+			end
+		end
+	end,
+	["Passives in radius are Conquered by the Karui"] = function(node, out, data)
+		if node then
+			if node.type == "Normal" then
+				out:NewMod("Str", "BASE", 2, data.modSource)
+			elseif node.type == "Notable" then
+				out:NewMod("Str", "BASE", 4, data.modSource)
+			end
+		end
+	end,
+	-- fixme
+	--[[
+	["Bathed in the blood of 99 sacrificed in the name of Xibaqua"]                    = getLegionKeystoneConv("Divine Flesh"),
+	["Bathed in the blood of (100-8000) sacrificed in the name of Xibaqua"]            = getLegionKeystoneConv("Divine Flesh"),
+	["Bathed in the blood of (100-8000) sacrificed in the name of Zerphi"]             = getLegionKeystoneConv("Eternal Youth"),
+	["Bathed in the blood of (100-8000) sacrificed in the name of Doryani"]            = getLegionKeystoneConv("Corrupted Soul"),
+	["Commissioned (2000-160000) coins to commemorate Cadiro"]                         = getLegionKeystoneConv("Supreme Decadence"),
+	["Commissioned (2000-160000) coins to commemorate Victario"]                       = getLegionKeystoneConv("Supreme Grandstanding"),
+	["Commissioned (2000-160000) coins to commemorate Chitus"]                         = getLegionKeystoneConv("Supreme Ego"),
+	["Denoted service of (500-8000) dekhara in the akhara of Deshret"]                 = getLegionKeystoneConv("Wind Dancer"),
+	["Denoted service of (500-8000) dekhara in the akhara of Asenath"]                 = getLegionKeystoneConv("Dance with Death"),
+	["Denoted service of (500-8000) dekhara in the akhara of Nasima"]                  = getLegionKeystoneConv("Second Sight"),
+	["Commanded leadership over (10000-18000) warriors under Kaom"]                    = getLegionKeystoneConv("Strength of Blood"),
+	["Commanded leadership over (10000-18000) warriors under Rakiata"]                 = getLegionKeystoneConv("Tempered by War"),
+	["Commanded leadership over (10000-18000) warriors under Kiloava"]                 = getLegionKeystoneConv("Glancing Blows"),
+	["Carved to glorify (2000-10000) new faithful converted by High Templar Venarius"] = getLegionKeystoneConv("The Agnostic"),
+	["Carved to glorify (2000-10000) new faithful converted by High Templar Dominus"]  = getLegionKeystoneConv("Inner Conviction"),
+	["Carved to glorify (2000-10000) new faithful converted by High Templar Avarius"]  = getLegionKeystoneConv("Power of Purpose"),
+	]]
+
 }
 
 -- Radius jewels that modify the jewel itself based on nearby allocated nodes
