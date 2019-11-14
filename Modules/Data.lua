@@ -343,4 +343,9 @@ for _, targetVersion in ipairs(targetVersionList) do
 
 	-- Rare templates
 	verData.rares = dataModule("Rares")
+
+	-- Load legion passive data
+	if targetVersion ~= "2_6" then
+		verData.legionPassives = dataModule("LegionPassives")
+	end
 end

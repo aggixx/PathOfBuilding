@@ -64,6 +64,31 @@ local PassiveTreeClass = newClass("PassiveTree", function(self, treeVersion)
 		self[k] = v
 	end
 
+	-- Add in legion passives
+	if self.targetVersion ~= "2_6" then
+		local legionPassives = LoadModule("Data/"..self.targetVersion.."/LegionPassives")
+
+		for _, lNode in pairs(legionPassives.nodes) do
+			--ConPrintf("Added legion passive "..lNode.id)
+			self.nodes[lNode.id] = lNode
+
+			--[[
+			local node = self.nodes[lNode.id]
+
+			for _, stat in pairs(node.stats) do
+
+
+				table.insert(node.sd, "")
+			end
+			]]
+		end
+
+		-- Add legion passive group
+		for groupId, group in pairs(legionPassives.groups) do
+			self.groups[groupId] = group
+		end
+	end
+
 	local cdnRoot = treeVersion == "2_6" and "" or "https://web.poecdn.com/image"
 
 	self.size = m_min(self.max_x - self.min_x, self.max_y - self.min_y) * 1.1
@@ -194,7 +219,7 @@ local PassiveTreeClass = newClass("PassiveTree", function(self, treeVersion)
 			sockets[node.id] = node
 		elseif node.ks then
 			node.type = "Keystone"
-			self.keystoneMap[node.dn] = node
+			self.keystoneMap[node.dn:lower()] = node
 		elseif node["not"] then
 			node.type = "Notable"
 			self.notableMap[node.dn:lower()] = node
@@ -304,6 +329,7 @@ local PassiveTreeClass = newClass("PassiveTree", function(self, treeVersion)
 		end
 		if node.type == "Keystone" then
 			node.keystoneMod = modLib.createMod("Keystone", "LIST", node.dn, "Tree"..node.id)
+			ConPrintf("Added keystone mod to "..node.dn)
 		end
 	end
 

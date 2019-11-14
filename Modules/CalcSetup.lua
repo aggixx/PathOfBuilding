@@ -64,7 +64,12 @@ end
 
 function calcs.buildModListForNode(env, node)
 	local modList = new("ModList")
+
+	--if node.dn == "Divine Flesh" then
+	--end
+
 	if node.type == "Keystone" then
+		ConPrintf("Building mod list for node "..node.dn)
 		modList:AddMod(node.keystoneMod)
 	else
 		modList:AddList(node.modList)
@@ -617,13 +622,35 @@ function calcs.initEnv(build, mode, override)
 
 	-- Add granted passives
 	env.grantedPassives = { }
+
 	for _, passive in pairs(env.modDB:List(nil, "GrantedPassive")) do
-		local node = env.spec.tree.notableMap[passive]
+		passive = passive:lower()
+
+		--ConPrintf("gp: "..passive)
+		local node = env.spec.tree.notableMap[passive] or env.spec.tree.keystoneMap[passive]
+
 		if node then
 			nodes[node.id] = node
 			env.grantedPassives[node.id] = true
+
+			ConPrintf("Allocated "..node.type.." "..node.dn);
+		else
+			ConPrintf("Failed to allocate "..passive);
 		end
 	end
+
+	-- Add granted legion passives
+	--[[
+	for _, passive in pairs(env.modDB:List(nil, "GrantedLegionPassive")) do
+		ConPrintf("glp: "..passive)
+
+		local node = env.data.legionPassives[passive]
+		if node then
+			nodes[node.Id] = node
+			env.grantedPassives[node.Id] = true
+		end
+	end
+	]]
 
 	-- Merge modifiers for allocated passives
 	env.modDB:AddList(calcs.buildModListForNodeList(env, nodes, true))

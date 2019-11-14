@@ -651,7 +651,7 @@ skills["SupportSlashingWeapon"] = {
 	color = 2,
 	support = true,
 	requireSkillTypes = { SkillType.Melee, },
-	addSkillTypes = { SkillType.Duration, SkillType.Buff, SkillType.Area, },
+	addSkillTypes = { SkillType.Duration, SkillType.Buff, },
 	excludeSkillTypes = { SkillType.CreatesMinion, },
 	ignoreMinionTypes = true,
 	statDescriptionScope = "gem_stat_descriptions",
@@ -662,7 +662,6 @@ skills["SupportSlashingWeapon"] = {
 	},
 	stats = {
 		"support_slashing_damage_+%_final_from_distance",
-		"support_close_combat_melee_damage_+%_final",
 		"support_slashing_buff_base_duration_ms",
 		"support_slashing_buff_attack_cast_speed_+%_final_to_grant",
 		"supported_by_slashing",
@@ -1806,14 +1805,7 @@ skills["SupportPuncturingWeapon"] = {
 	ignoreMinionTypes = true,
 	statDescriptionScope = "gem_stat_descriptions",
 	baseMods = {
-		flag("Condition:CanBeElusive"),
-		mod("Dummy", "DUMMY", 1, 0, 0, { type = "Condition", var = "CanBeElusive" }),
 	},
-	statMap = {
-		["elusive_effect_+%"] = {
-			mod("ElusiveEffect", "INC", nil, 0, 0, { type = "GlobalEffect", effectType = "Buff", effectName = "Nightblade" }, { type = "Condition", varList = { "UsingClaw", "UsingDagger" } } ),
-		},
-	},	
 	qualityStats = {
 		{ "critical_strike_chance_+%", 1 },
 	},
@@ -2823,13 +2815,7 @@ skills["SupportChaosAttacks"] = {
 	excludeSkillTypes = { },
 	statDescriptionScope = "gem_stat_descriptions",
 	baseMods = {
-		mod("ChaosDamageTaken", "INC", 6, 0, 0, { type = "GlobalEffect", effectType = "Debuff", effectName = "Withered", effectStackVar = "WitheredStackCount", effectStackLimit = 15 }),
-	},
-	statMap = {
-		["withered_on_hit_chance_%"] = {
-			flag("Condition:CanWither"),
-			mod("Dummy", "DUMMY", 1, 0, 0, { type = "Condition", var = "CanWither" }),
-		},
+		mod("ChaosDamageTaken", "INC", 6, 0, 0, { type = "GlobalEffect", effectType = "Debuff", effectName = "Withered", effectStackVar = "WitheringTouchWitheredStackCount", effectStackLimit = 15 }),
 	},
 	qualityStats = {
 		{ "chaos_damage_+%", 0.5 },

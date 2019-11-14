@@ -199,12 +199,306 @@ return {
 	AdvancedSkillsTutorial={
 	},
 	AlternatePassiveAdditions={
+		[1]={
+			list=false,
+			name="Id",
+			refTo="",
+			type="String",
+			width=260
+		},
+		[2]={
+			list=false,
+			name="AlternateTreeVersionsKey",
+			refTo="AlternateTreeVersions",
+			type="Key",
+			width=150
+		},
+		[3]={
+			list=false,
+			name="SpawnWeight",
+			refTo="",
+			type="Int",
+			width=80
+		},
+		[4]={
+			list=true,
+			name="StatsKeys",
+			refTo="",
+			type="UInt",
+			width=80
+		},
+		[5]={
+			list=false,
+			name="Stat1",
+			refTo="",
+			type="Interval",
+			width=150
+		},
+		[6]={
+			list=false,
+			name="Unknown6",
+			refTo="",
+			type="Int",
+			width=30
+		},
+		[7]={
+			list=false,
+			name="Unknown7",
+			refTo="",
+			type="Int",
+			width=30
+		},
+		[8]={
+			list=false,
+			name="Unknown8",
+			refTo="",
+			type="Int",
+			width=30
+		},
+		[9]={
+			list=false,
+			name="Unknown9",
+			refTo="",
+			type="Int",
+			width=30
+		},
+		[10]={
+			list=true,
+			name="PassiveType",
+			refTo="",
+			type="Int",
+			width=150
+		},
+		[11]={
+			list=false,
+			name="Unknown11",
+			refTo="",
+			type="Int",
+			width=150
+		}
 	},
 	AlternatePassiveSkills={
+		[1]={
+			list=false,
+			name="Id",
+			refTo="",
+			type="String",
+			width=230
+		},
+		[2]={
+			list=false,
+			name="AlternateTreeVersionsKey",
+			refTo="AlternateTreeVersions",
+			type="Key",
+			width=140
+		},
+		[3]={
+			list=false,
+			name="Name",
+			refTo="",
+			type="String",
+			width=150
+		},
+		[4]={
+			list=true,
+			name="PassiveType",
+			refTo="",
+			type="Int",
+			width=70
+		},
+		[5]={
+			list=true,
+			name="StatsKeys",
+			refTo="Stats",
+			type="Key",
+			width=460
+		},
+		[6]={
+			list=false,
+			name="Stat1",
+			refTo="",
+			type="Interval",
+			width=70
+		},
+		[7]={
+			list=false,
+			name="Stat2",
+			refTo="",
+			type="Interval",
+			width=50
+		},
+		[8]={
+			list=false,
+			name="Unknown9",
+			refTo="",
+			type="Int",
+			width=70
+		},
+		[9]={
+			list=false,
+			name="Unknown10",
+			refTo="",
+			type="Int",
+			width=70
+		},
+		[10]={
+			list=false,
+			name="Unknown11",
+			refTo="",
+			type="Int",
+			width=70
+		},
+		[11]={
+			list=false,
+			name="Unknown12",
+			refTo="",
+			type="Int",
+			width=70
+		},
+		[12]={
+			list=false,
+			name="Unknown13",
+			refTo="",
+			type="Int",
+			width=70
+		},
+		[13]={
+			list=false,
+			name="Unknown14",
+			refTo="",
+			type="Int",
+			width=70
+		},
+		[14]={
+			list=false,
+			name="Unknown15",
+			refTo="",
+			type="Int",
+			width=30
+		},
+		[15]={
+			list=false,
+			name="Unknown16",
+			refTo="",
+			type="Int",
+			width=50
+		},
+		[16]={
+			list=false,
+			name="SpawnWeight",
+			refTo="",
+			type="Int",
+			width=30
+		},
+		[17]={
+			list=false,
+			name="Unknown18",
+			refTo="",
+			type="Int",
+			width=150
+		},
+		[18]={
+			list=false,
+			name="Random",
+			refTo="",
+			type="Interval",
+			width=150
+		},
+		[19]={
+			list=false,
+			name="FlavourText",
+			refTo="",
+			type="String",
+			width=150
+		},
+		[20]={
+			list=false,
+			name="DDSIcon",
+			refTo="",
+			type="String",
+			width=150
+		},
+		[21]={
+			list=true,
+			name="AchievementItemsKeys",
+			refTo="",
+			type="UInt",
+			width=150
+		}
 	},
 	AlternateTreePassiveSizes={
 	},
 	AlternateTreeVersions={
+		[1]={
+			list=false,
+			name="Id",
+			refTo="",
+			type="String",
+			width=150
+		},
+		[2]={
+			list=false,
+			name="Flag0",
+			refTo="",
+			type="Bool",
+			width=150
+		},
+		[3]={
+			list=false,
+			name="Flag1",
+			refTo="",
+			type="Bool",
+			width=150
+		},
+		[4]={
+			list=false,
+			name="Unknown1",
+			refTo="",
+			type="Int",
+			width=150
+		},
+		[5]={
+			list=false,
+			name="Unknown2",
+			refTo="",
+			type="Int",
+			width=150
+		},
+		[6]={
+			list=false,
+			name="Unknown3",
+			refTo="",
+			type="Int",
+			width=150
+		},
+		[7]={
+			list=false,
+			name="Unknown4",
+			refTo="",
+			type="Int",
+			width=150
+		},
+		[8]={
+			list=false,
+			name="Unknown5",
+			refTo="",
+			type="Int",
+			width=150
+		},
+		[9]={
+			list=false,
+			name="Unknown6",
+			refTo="",
+			type="Int",
+			width=150
+		},
+		[10]={
+			list=false,
+			name="Unknown7",
+			refTo="",
+			type="Int",
+			width=150
+		}
 	},
 	Animation={
 		[1]={
@@ -449,6 +743,27 @@ return {
 	BetrayalWallLifeScalingPerLevel={
 	},
 	BeyondDemons={
+		[1]={
+			list=false,
+			name="",
+			refTo="MonsterVarieties",
+			type="Key",
+			width=350
+		},
+		[2]={
+			list=false,
+			name="",
+			refTo="",
+			type="Bool",
+			width=150
+		},
+		[3]={
+			list=false,
+			name="",
+			refTo="",
+			type="Bool",
+			width=150
+		}
 	},
 	BindableVirtualKeys={
 	},
@@ -1433,6 +1748,27 @@ return {
 	ExpandingPulse={
 	},
 	ExperienceLevels={
+		[1]={
+			list=false,
+			name="Level",
+			refTo="",
+			type="String",
+			width=150
+		},
+		[2]={
+			list=false,
+			name="Level",
+			refTo="",
+			type="Int",
+			width=150
+		},
+		[3]={
+			list=false,
+			name="XP",
+			refTo="",
+			type="UInt",
+			width=150
+		}
 	},
 	ExplodingStormBuffs={
 	},
@@ -1561,6 +1897,55 @@ return {
 	GlobalAudioConfig={
 	},
 	Grandmasters={
+		[1]={
+			list=false,
+			name="",
+			refTo="",
+			type="String",
+			width=40
+		},
+		[2]={
+			list=false,
+			name="",
+			refTo="",
+			type="String",
+			width=360
+		},
+		[3]={
+			list=false,
+			name="",
+			refTo="",
+			type="String",
+			width=350
+		},
+		[4]={
+			list=false,
+			name="",
+			refTo="",
+			type="Int",
+			width=150
+		},
+		[5]={
+			list=false,
+			name="",
+			refTo="",
+			type="Int",
+			width=150
+		},
+		[6]={
+			list=false,
+			name="Level",
+			refTo="",
+			type="Int",
+			width=150
+		},
+		[7]={
+			list=false,
+			name="",
+			refTo="",
+			type="Bool",
+			width=150
+		}
 	},
 	GrantedEffectGroups={
 	},
@@ -2083,6 +2468,13 @@ return {
 	ImpactSoundData={
 	},
 	Incubators={
+		[1]={
+			list=false,
+			name="",
+			refTo="",
+			type="Key",
+			width=150
+		}
 	},
 	IncursionArchitect={
 	},
@@ -2269,6 +2661,27 @@ return {
 	LegionChests={
 	},
 	LegionFactions={
+		[1]={
+			list=false,
+			name="Name",
+			refTo="",
+			type="String",
+			width=150
+		},
+		[2]={
+			list=false,
+			name="",
+			refTo="",
+			type="Int",
+			width=150
+		},
+		[3]={
+			list=false,
+			name="",
+			refTo="",
+			type="Key",
+			width=150
+		}
 	},
 	LegionMonsterCounts={
 	},
@@ -2281,10 +2694,122 @@ return {
 	LegionRanks={
 	},
 	LegionRewardTypeVisuals={
+		[1]={
+			list=false,
+			name="",
+			refTo="",
+			type="Int",
+			width=60
+		},
+		[2]={
+			list=false,
+			name="",
+			refTo="",
+			type="Key",
+			width=150
+		},
+		[3]={
+			list=false,
+			name="",
+			refTo="",
+			type="Int",
+			width=150
+		},
+		[4]={
+			list=false,
+			name="",
+			refTo="",
+			type="Key",
+			width=150
+		},
+		[5]={
+			list=false,
+			name="",
+			refTo="",
+			type="Int",
+			width=150
+		},
+		[6]={
+			list=false,
+			name="",
+			refTo="",
+			type="String",
+			width=150
+		}
 	},
 	LegionRewardTypes={
 	},
 	LegionRewards={
+		[1]={
+			list=false,
+			name="Faction",
+			refTo="LegionFactions",
+			type="Key",
+			width=150
+		},
+		[2]={
+			list=false,
+			name="",
+			refTo="",
+			type="Key",
+			width=150
+		},
+		[3]={
+			list=false,
+			name="",
+			refTo="",
+			type="Int",
+			width=150
+		},
+		[4]={
+			list=false,
+			name="",
+			refTo="",
+			type="Int",
+			width=150
+		},
+		[5]={
+			list=false,
+			name="",
+			refTo="",
+			type="Bool",
+			width=150
+		},
+		[6]={
+			list=false,
+			name="",
+			refTo="",
+			type="Int",
+			width=150
+		},
+		[7]={
+			list=false,
+			name="",
+			refTo="",
+			type="Int",
+			width=150
+		},
+		[8]={
+			list=false,
+			name="",
+			refTo="",
+			type="Int",
+			width=150
+		},
+		[9]={
+			list=false,
+			name="",
+			refTo="",
+			type="Int",
+			width=150
+		},
+		[10]={
+			list=false,
+			name="",
+			refTo="",
+			type="Int",
+			width=150
+		}
 	},
 	LevelRelativePlayerScaling={
 	},
@@ -3570,14 +4095,210 @@ return {
 	PantheonSouls={
 	},
 	PassiveJewelSlots={
+		[1]={
+			list=false,
+			name="",
+			refTo="PassiveSkills",
+			type="Key",
+			width=150
+		}
 	},
 	PassiveSkillBuffs={
+		[1]={
+			list=false,
+			name="",
+			refTo="",
+			type="String",
+			width=150
+		}
 	},
 	PassiveSkillStatCategories={
 	},
 	PassiveSkillTreeTutorial={
 	},
 	PassiveSkills={
+		[1]={
+			list=false,
+			name="Id",
+			refTo="",
+			type="String",
+			width=230
+		},
+		[2]={
+			list=false,
+			name="Icon",
+			refTo="",
+			type="String",
+			width=150
+		},
+		[3]={
+			list=true,
+			name="StatsKeys",
+			refTo="Stats",
+			type="Key",
+			width=500
+		},
+		[4]={
+			list=false,
+			name="Stat1Value",
+			refTo="",
+			type="Int",
+			width=70
+		},
+		[5]={
+			list=false,
+			name="Stat2Value",
+			refTo="",
+			type="Int",
+			width=70
+		},
+		[6]={
+			list=false,
+			name="Stat3Value",
+			refTo="",
+			type="Int",
+			width=70
+		},
+		[7]={
+			list=false,
+			name="Stat4Value",
+			refTo="",
+			type="Int",
+			width=70
+		},
+		[8]={
+			list=false,
+			name="PassiveSkillGraphId",
+			refTo="",
+			type="Int",
+			width=110
+		},
+		[9]={
+			list=false,
+			name="Name",
+			refTo="",
+			type="String",
+			width=150
+		},
+		[10]={
+			list=true,
+			name="CharactersKeys",
+			refTo="Characters",
+			type="Key",
+			width=150
+		},
+		[11]={
+			list=false,
+			name="IsKeystone",
+			refTo="",
+			type="Bool",
+			width=150
+		},
+		[12]={
+			list=false,
+			name="IsNotable",
+			refTo="",
+			type="Bool",
+			width=150
+		},
+		[13]={
+			list=false,
+			name="FlavourText",
+			refTo="",
+			type="String",
+			width=150
+		},
+		[14]={
+			list=false,
+			name="IsJustIcon",
+			refTo="",
+			type="Bool",
+			width=150
+		},
+		[15]={
+			list=false,
+			name="AchievementItemsKey",
+			refTo="AchievementItems",
+			type="Key",
+			width=150
+		},
+		[16]={
+			list=false,
+			name="IsJewelSocket",
+			refTo="",
+			type="Bool",
+			width=150
+		},
+		[17]={
+			list=false,
+			name="AscendancyKey",
+			refTo="Ascendancy",
+			type="Key",
+			width=150
+		},
+		[18]={
+			list=false,
+			name="IsAscendancyStartingNode",
+			refTo="",
+			type="Bool",
+			width=150
+		},
+		[19]={
+			list=true,
+			name="Reminder_ClientStringsKeys",
+			refTo="ClientStrings",
+			type="Key",
+			width=150
+		},
+		[20]={
+			list=false,
+			name="SkillPointsGranted",
+			refTo="",
+			type="Int",
+			width=150
+		},
+		[21]={
+			list=false,
+			name="IsMultipleChoice",
+			refTo="",
+			type="Bool",
+			width=150
+		},
+		[22]={
+			list=false,
+			name="IsMultipleChoiceOption",
+			refTo="",
+			type="Bool",
+			width=150
+		},
+		[23]={
+			list=false,
+			name="Stat5Value",
+			refTo="",
+			type="Int",
+			width=150
+		},
+		[24]={
+			list=true,
+			name="PassiveSkillBuffsKeys",
+			refTo="PassiveSkillBuffs",
+			type="Key",
+			width=150
+		},
+		[25]={
+			list=false,
+			name="GrantedEffectsPerLevelKey",
+			refTo="GrantedEffectsPerLevel",
+			type="Key",
+			width=150
+		},
+		[26]={
+			list=false,
+			name="Flag0",
+			refTo="",
+			type="Bool",
+			width=150
+		}
 	},
 	PathOfEndurance={
 	},
@@ -3646,6 +4367,55 @@ return {
 	Rarity={
 	},
 	Realms={
+		[1]={
+			list=false,
+			name="",
+			refTo="",
+			type="String",
+			width=150
+		},
+		[2]={
+			list=false,
+			name="",
+			refTo="",
+			type="String",
+			width=150
+		},
+		[3]={
+			list=false,
+			name="",
+			refTo="",
+			type="Int",
+			width=150
+		},
+		[4]={
+			list=false,
+			name="",
+			refTo="",
+			type="Int",
+			width=150
+		},
+		[5]={
+			list=false,
+			name="",
+			refTo="",
+			type="Bool",
+			width=150
+		},
+		[6]={
+			list=true,
+			name="",
+			refTo="",
+			type="String",
+			width=150
+		},
+		[7]={
+			list=false,
+			name="",
+			refTo="",
+			type="String",
+			width=150
+		}
 	},
 	RecipeUnlockDisplay={
 	},
@@ -3861,7 +4631,7 @@ return {
 			name="Id",
 			refTo="",
 			type="String",
-			width=310
+			width=490
 		},
 		[2]={
 			list=false,
@@ -4054,10 +4824,80 @@ return {
 	TerrainPlugins={
 	},
 	Tips={
+		[1]={
+			list=false,
+			name="Key",
+			refTo="",
+			type="String",
+			width=150
+		},
+		[2]={
+			list=false,
+			name="Text",
+			refTo="",
+			type="String",
+			width=810
+		}
 	},
 	Topologies={
 	},
 	TormentSpirits={
+		[1]={
+			list=false,
+			name="Monster",
+			refTo="MonsterVarieties",
+			type="Key",
+			width=340
+		},
+		[2]={
+			list=false,
+			name="",
+			refTo="",
+			type="Int",
+			width=150
+		},
+		[3]={
+			list=false,
+			name="",
+			refTo="",
+			type="Key",
+			width=250
+		},
+		[4]={
+			list=false,
+			name="",
+			refTo="",
+			type="Key",
+			width=150
+		},
+		[5]={
+			list=false,
+			name="",
+			refTo="",
+			type="Int",
+			width=150
+		},
+		[6]={
+			list=false,
+			name="",
+			refTo="",
+			type="Int",
+			width=150
+		},
+		[7]={
+			list=false,
+			name="",
+			refTo="",
+			type="Int",
+			width=150
+		},
+		[8]={
+			list=false,
+			name="SpawnWeight",
+			refTo="",
+			type="Int",
+			width=150
+		}
 	},
 	TreasureHunterMissions={
 	},

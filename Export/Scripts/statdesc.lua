@@ -89,6 +89,7 @@ local statFileList = {
 	"stat_descriptions",
 	"variable_duration_skill_stat_descriptions",
 	"buff_skill_stat_descriptions",
+	"passive_skill_stat_descriptions",
 }
 for _, name in ipairs(statFileList) do
 	processStatFile(name)

@@ -1683,9 +1683,12 @@ local specialModList = {
 	["socketed lightning spells [hd][ae][va][el] (%d+)%% increased spell damage if triggered"] = { },
 	["manifeste?d? dancing dervish disables both weapon slots"] = { },
 	["manifeste?d? dancing dervish dies when rampage ends"] = { },
+	
 	-- Legion jewel
 	["bathed in the blood of %d+ sacrificed in the name of xibaqua"] = { mod("GrantedPassive", "LIST", "Divine Flesh") },
-	["bathed in the blood of %d+ sacrificed in the name of doryani"] = { mod("GrantedPassive", "LIST", "Corrupted Soul") },
+	["bathed in the blood of %d+ sacrificed in the name of doryani"] = { mod("GrantedLegionPassive", "LIST", "vaal_keystone_2") },
+	["bathed in the blood of %d+ sacrificed in the name of zerphi"]  = { mod("GrantedLegionPassive", "LIST", "vaal_keystone_3") },
+	
 }
 local keystoneList = {
 	-- List of keystones that can be found on uniques
