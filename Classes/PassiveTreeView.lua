@@ -394,9 +394,18 @@ function PassiveTreeViewClass:Draw(build, viewPort, inputEvents)
 					end
 				end
 			else
+				local displayNode = node;
+
+				-- if the node is overridden to another node (such as for legion timeless jewel transformation),
+				-- show art for that node instead;
+				if node.overrideToOtherNode then
+					displayNode = spec.nodes[node.overrideToOtherNode];
+					--ConPrintf("Overriding "..node.dn.." art to "..displayNode.dn)
+				end
+
 				-- Normal node (includes keystones and notables)
-				base = node.sprites[node.type:lower()..(isAlloc and "Active" or "Inactive")] 
-				overlay = node.overlay[state .. (node.ascendancyName and "Ascend" or "")]
+				base = displayNode.sprites[displayNode.type:lower()..(isAlloc and "Active" or "Inactive")] 
+				overlay = node.overlay[state .. (displayNode.ascendancyName and "Ascend" or "")]
 			end
 		end
 
@@ -634,43 +643,48 @@ function PassiveTreeViewClass:AddNodeTooltip(tooltip, node, build)
 		tooltip:AddLine(14, colorCodes.TIP.."Tip: Hold Shift to hide this tooltip.")
 		return
 	end
+
+	-- if the node is overridden to another node (such as for legion timeless jewel transformation),
+	-- show select information for that node instead:
+	-- name, description, reminder text
+	local displayNode = build.spec.nodes[node.overrideToOtherNode] or node;
 	
 	-- Node name
-	self:AddNodeName(tooltip, node, build)
+	self:AddNodeName(tooltip, displayNode, build)
 	if launch.devModeAlt then
-		if node.power and node.power.offence then
+		if displayNode.power and displayNode.power.offence then
 			-- Power debugging info
-			tooltip:AddLine(16, string.format("DPS power: %g   Defence power: %g", node.power.offence, node.power.defence))
+			tooltip:AddLine(16, string.format("DPS power: %g   Defence power: %g", displayNode.power.offence, displayNode.power.defence))
 		end
 	end
 
 	-- Node description
-	if node.sd[1] then
+	if displayNode.sd[1] then
 		tooltip:AddLine(16, "")
-		for i, line in ipairs(node.sd) do
-			if node.mods[i].list then
+		for i, line in ipairs(displayNode.sd) do
+			if displayNode.mods[i].list then
 				if launch.devModeAlt then
 					-- Modifier debugging info
 					local modStr
-					for _, mod in pairs(node.mods[i].list) do
+					for _, mod in pairs(displayNode.mods[i].list) do
 						modStr = (modStr and modStr..", " or "^2") .. modLib.formatMod(mod)
 					end
-					if node.mods[i].extra then
-						modStr = (modStr and modStr.."  " or "") .. "^1" .. node.mods[i].extra
+					if displayNode.mods[i].extra then
+						modStr = (modStr and modStr.."  " or "") .. "^1" .. displayNode.mods[i].extra
 					end
 					if modStr then
 						line = line .. "  " .. modStr
 					end
 				end
 			end
-			tooltip:AddLine(16, ((node.mods[i].extra or not node.mods[i].list) and colorCodes.UNSUPPORTED or colorCodes.MAGIC)..line)
+			tooltip:AddLine(16, ((displayNode.mods[i].extra or not displayNode.mods[i].list) and colorCodes.UNSUPPORTED or colorCodes.MAGIC)..line)
 		end
 	end
 
 	-- Reminder text
-	if node.reminderText then
+	if displayNode.reminderText then
 		tooltip:AddSeparator(14)
-		for _, line in ipairs(node.reminderText) do
+		for _, line in ipairs(displayNode.reminderText) do
 			tooltip:AddLine(14, "^xA0A080"..line)
 		end
 	end

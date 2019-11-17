@@ -1858,14 +1858,6 @@ local function getSimpleConv(srcList, dst, type, remove, factor)
 	end
 end
 
-local function getLegionKeystoneConv(keystoneName)
-	return function(node, out, data)
-		if node then
-			return mod("GrantedPassive", "LIST", passive)
-		end
-	end
-end
-
 local jewelOtherFuncs = {
 	["Strength from Passives in Radius is Transformed to Dexterity"] = getSimpleConv({"Str"}, "Dex", "BASE", true),
 	["Dexterity from Passives in Radius is Transformed to Strength"] = getSimpleConv({"Dex"}, "Str", "BASE", true),
@@ -1971,7 +1963,6 @@ local jewelOtherFuncs = {
 	["Carved to glorify (2000-10000) new faithful converted by High Templar Dominus"]  = getLegionKeystoneConv("Inner Conviction"),
 	["Carved to glorify (2000-10000) new faithful converted by High Templar Avarius"]  = getLegionKeystoneConv("Power of Purpose"),
 	]]
-
 }
 
 -- Radius jewels that modify the jewel itself based on nearby allocated nodes
@@ -2091,6 +2082,31 @@ local jewelThresholdFuncs = {
 	--[""] = getThreshold("", "", "", , { type = "SkillName", skillName = "" }),
 }
 
+-- Legion Keystone functions
+local jewelLegionKeystoneFuncs = {
+	["Denoted service of 4250 dekhara in the akhara of Deshret"] = function(node, out, data)
+		if node and node.type == "Keystone" then
+
+			--[[
+			-- if the keystone has mods, clear them first
+			if #out > 0 then
+				out:NewMod("PassiveSkillHasNoEffect", "FLAG", true, data.modSource)
+				ConPrintf("Negated "..node.dn)
+			else
+				-- if it has no mods, they've already been cleared and we're ok to add the new mods
+				--out:NewMod("maraketh_keystone_1", "FLAG", true, data.modSource)
+				ConPrintf(node.dn.." grants Wind Dancer")
+				out:NewMod("GrantedPassive", "LIST", "Wind Dancer", data.modSource)
+			end
+			]]
+
+			node.overrideToOtherNode = "maraketh_keystone_1"
+			ConPrintf("Set "..node.dn.." overridden to "..node.overrideToOtherNode)
+			ConPrintf(debug.traceback())
+		end
+	end
+}
+
 -- Unified list of jewel functions
 local jewelFuncList = { }
 for k, v in pairs(jewelOtherFuncs) do
@@ -2104,6 +2120,9 @@ for k, v in pairs(jewelSelfUnallocFuncs) do
 end
 for k, v in pairs(jewelThresholdFuncs) do
 	jewelFuncList[k:lower()] = { func = v, type = "Threshold" }
+end
+for k, v in pairs(jewelLegionKeystoneFuncs) do
+	jewelFuncList[k:lower()] = { func = v, type = "LegionKeystone" }
 end
 
 -- Scan a line for the earliest and longest match from the pattern list

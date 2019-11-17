@@ -65,19 +65,24 @@ end
 function calcs.buildModListForNode(env, node)
 	local modList = new("ModList")
 
-	--if node.dn == "Divine Flesh" then
-	--end
+	if node.overrideToOtherNode then -- Legion Keystone
+		ConPrintf("overriding mod list for "..node.dn)
+		local oNode = env.spec.nodes[node.overrideToOtherNode];
 
-	if node.type == "Keystone" then
-		ConPrintf("Building mod list for node "..node.dn)
-		modList:AddMod(node.keystoneMod)
+		if oNode then
+			modList:AddMod(oNode.keystoneMod)
+		end
 	else
-		modList:AddList(node.modList)
+		if node.type == "Keystone" then
+			modList:AddMod(node.keystoneMod)
+		else
+			modList:AddList(node.modList)
+		end
 	end
 
 	-- Run first pass radius jewels
 	for _, rad in pairs(env.radiusJewelList) do
-		if rad.type == "Other" and rad.nodes[node.id] then
+		if (rad.type == "Other" or rad.type == "LegionKeystone") and rad.nodes[node.id] then
 			rad.func(node, modList, rad.data)
 		end
 	end
@@ -96,7 +101,7 @@ function calcs.buildModListForNode(env, node)
 
 	-- Run second pass radius jewels
 	for _, rad in pairs(env.radiusJewelList) do
-		if rad.nodes[node.id] and (rad.type == "Threshold" or (rad.type == "Self" and env.allocNodes[node.id]) or (rad.type == "SelfUnalloc" and not env.allocNodes[node.id])) then
+		if rad.nodes[node.id] and (rad.type == "Threshold" or (rad.type == "Self" and env.allocNodes[node.id]) or (rad.type == "SelfUnalloc" and not env.allocNodes[node.id])) or rad.type == "LegionKeystone" then
 			rad.func(node, modList, rad.data)
 		end
 	end
@@ -626,7 +631,6 @@ function calcs.initEnv(build, mode, override)
 	for _, passive in pairs(env.modDB:List(nil, "GrantedPassive")) do
 		passive = passive:lower()
 
-		--ConPrintf("gp: "..passive)
 		local node = env.spec.tree.notableMap[passive] or env.spec.tree.keystoneMap[passive]
 
 		if node then
@@ -639,18 +643,12 @@ function calcs.initEnv(build, mode, override)
 		end
 	end
 
-	-- Add granted legion passives
-	--[[
-	for _, passive in pairs(env.modDB:List(nil, "GrantedLegionPassive")) do
-		ConPrintf("glp: "..passive)
+	-- Clear node overrides (such as passives being "conquered" by a Legion timeless jewel)
+	ConPrintf("Clearing conquered nodes")
 
-		local node = env.data.legionPassives[passive]
-		if node then
-			nodes[node.Id] = node
-			env.grantedPassives[node.Id] = true
-		end
+	for _, node in pairs(nodes) do
+		node.overrideToOtherNode = nil;
 	end
-	]]
 
 	-- Merge modifiers for allocated passives
 	env.modDB:AddList(calcs.buildModListForNodeList(env, nodes, true))
