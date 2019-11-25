@@ -1057,6 +1057,8 @@ local specialModList = {
 	["your damage with critical strikes is lucky"] = { mod("DamageLucky", "FLAG", true, { type = "Condition", var = "CriticalStrike" }) },
 	["you are blind"] = { flag("Condition:Blind") },
 	["(%d+)%% more melee critical strike chance while blinded"] = function(num) return { mod("CritChance", "MORE", num, { type = "Condition", var = "Blind" }, ModFlag.Melee) } end,
+	["auras from your skills have (%d+)%% more effect on you"] = function(num) return { mod("AuraEffectOnSelf", "MORE", num) } end,
+	["auras from your skills do not affect allies"] = { flag("SelfAurasCannotAffectAllies") },
 	-- Ascendant
 	["grants (%d+) passive skill points?"] = function(num) return { mod("ExtraPoints", "BASE", num) } end,
 	["can allocate passives from the %a+'s starting point"] = { },
