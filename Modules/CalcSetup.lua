@@ -66,7 +66,7 @@ function calcs.buildModListForNode(env, node)
 	local modList = new("ModList")
 
 	if node.overrideToOtherNode then -- Legion Keystone
-		ConPrintf("overriding mod list for "..node.dn)
+		--ConPrintf("overriding mod list for "..node.dn)
 		local oNode = env.spec.nodes[node.overrideToOtherNode];
 
 		if oNode then
@@ -641,13 +641,6 @@ function calcs.initEnv(build, mode, override)
 		else
 			ConPrintf("Failed to allocate "..passive);
 		end
-	end
-
-	-- Clear node overrides (such as passives being "conquered" by a Legion timeless jewel)
-	ConPrintf("Clearing conquered nodes")
-
-	for _, node in pairs(nodes) do
-		node.overrideToOtherNode = nil;
 	end
 
 	-- Merge modifiers for allocated passives

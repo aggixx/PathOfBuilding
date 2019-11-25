@@ -401,6 +401,7 @@ function PassiveTreeViewClass:Draw(build, viewPort, inputEvents)
 				if node.overrideToOtherNode then
 					displayNode = spec.nodes[node.overrideToOtherNode];
 					--ConPrintf("Overriding "..node.dn.." art to "..displayNode.dn)
+					--ConPrintf(debug.traceback())
 				end
 
 				-- Normal node (includes keystones and notables)

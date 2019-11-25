@@ -2100,9 +2100,14 @@ local jewelLegionKeystoneFuncs = {
 			end
 			]]
 
+			local old = node.overrideToOtherNode
+
 			node.overrideToOtherNode = "maraketh_keystone_1"
-			ConPrintf("Set "..node.dn.." overridden to "..node.overrideToOtherNode)
-			ConPrintf(debug.traceback())
+
+			if old ~= node.overrideToOtherNode then
+				ConPrintf("Conquering "..node.dn.." => "..node.overrideToOtherNode)
+			end
+			--ConPrintf(debug.traceback())
 		end
 	end
 }

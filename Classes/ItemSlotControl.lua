@@ -56,15 +56,38 @@ local ItemSlotClass = newClass("ItemSlotControl", "DropDownControl", function(se
 end)
 
 function ItemSlotClass:SetSelItemId(selItemId)
+	local oldId = self.selItemId
 	self.selItemId = selItemId
 	if self.nodeId then
 		if self.itemsTab.build.spec then
 			self.itemsTab.build.spec.jewels[self.nodeId] = selItemId
 			self.itemsTab.build.spec:BuildAllDependsAndPaths()
+
+			-- Unconquer legion passives
+			if oldId and oldId > 0 then
+				--ConPrintf(oldId)
+				local item = self.itemsTab.items[self.items[oldId]]
+
+				if item then
+					ConPrintf("Unconquering nodes within "..data.jewelRadius[item.jewelRadiusIndex].label.." radius...")
+					local node = self.itemsTab.build.spec.nodes[self.nodeId]
+
+					for adjNodeId in pairs(node.nodesInRadius[item.jewelRadiusIndex]) do
+						local adjNode = self.itemsTab.build.spec.nodes[adjNodeId]
+
+						if adjNode.overrideToOtherNode then
+							ConPrintf("Unconquered "..adjNode.dn)
+							adjNode.overrideToOtherNode = nil;
+						end
+					end
+				end
+			end
 		end
 	else
 		self.itemsTab.activeItemSet[self.slotName].selItemId = selItemId
 	end
+
+	--ConPrintf("equip")
 end
 
 function ItemSlotClass:Populate()
