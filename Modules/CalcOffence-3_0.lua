@@ -1000,6 +1000,7 @@ function calcs.offence(env, actor, activeSkill)
 		output.EnergyShieldLeechInstant = 0
 		output.ManaLeech = 0
 		output.ManaLeechInstant = 0
+		output.LuckyDamageMultiplier = {}
 		for pass = 1, 2 do
 			-- Pass 1 is critical strike damage, pass 2 is non-critical strike
 			cfg.skillCond["CriticalStrike"] = (pass == 1)
@@ -1156,7 +1157,22 @@ function calcs.offence(env, actor, activeSkill)
 			else
 				output.ManaLeech = output.ManaLeech + manaLeechTotal * portion
 			end
+			if skillModList:Flag(cfg, "DamageLucky") then
+				output.LuckyDamageMultiplier[pass] = 1
+			end
 		end
+
+		for pass in pairs(output.LuckyDamageMultiplier) do
+			local min = pass == 1 and totalCritMin or totalHitMin
+			local max = pass == 1 and totalCritMax or totalHitMax
+			local baseAvg = (min + max) / 2
+			local luckyAvg = (min + 2 * max) / 3
+
+			ConPrintf(""..pass.." "..luckyAvg/baseAvg)
+
+			output.LuckyDamageMultiplier[pass] = luckyAvg / baseAvg
+		end
+
 		output.TotalMin = totalHitMin
 		output.TotalMax = totalHitMax
 
@@ -1217,14 +1233,14 @@ function calcs.offence(env, actor, activeSkill)
 		output.ManaOnHitRate = output.ManaOnHit * hitRate
 
 		-- Calculate average damage and final DPS
-		output.AverageHit = (totalHitMin + totalHitMax) / 2 * (1 - output.CritChance / 100) + (totalCritMin + totalCritMax) / 2 * output.CritChance / 100
+		output.AverageHit = (totalHitMin + totalHitMax) / 2 * (1 - output.CritChance / 100) * (output.LuckyDamageMultiplier[2] or 1) + (totalCritMin + totalCritMax) / 2 * output.CritChance / 100 * (output.LuckyDamageMultiplier[1] or 1)
 		output.AverageDamage = output.AverageHit * output.HitChance / 100
 		output.TotalDPS = output.AverageDamage * (globalOutput.HitSpeed or globalOutput.Speed) * (skillData.dpsMultiplier or 1)
 		if breakdown then
 			if output.CritEffect ~= 1 then
 				breakdown.AverageHit = {
-					s_format("%.1f x (1 - %.4f) ^8(damage from non-crits)", (totalHitMin + totalHitMax) / 2, output.CritChance / 100),
-					s_format("+ %.1f x %.4f ^8(damage from crits)", (totalCritMin + totalCritMax) / 2, output.CritChance / 100),
+					s_format("%.1f x (1 - %.4f) ^8(damage from non-crits)", (totalHitMin + totalHitMax) / 2 * (output.LuckyDamageMultiplier[2] or 1), output.CritChance / 100),
+					s_format("+ %.1f x %.4f ^8(damage from crits)", (totalCritMin + totalCritMax) / 2 * (output.LuckyDamageMultiplier[1] or 1), output.CritChance / 100),
 					s_format("= %.1f", output.AverageHit),
 				}
 			end

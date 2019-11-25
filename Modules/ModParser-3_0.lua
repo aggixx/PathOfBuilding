@@ -1318,6 +1318,7 @@ local specialModList = {
 	["your critical strike chance is lucky"] = { flag("CritChanceLucky") },
 	["your critical strike chance is lucky while focussed"] = { flag("CritChanceLucky", { type = "Condition", var = "Focused"}) },
 	["your critical strikes do not deal extra damage"] = { flag("NoCritMultiplier") },
+	["your damage with critical strikes is lucky"] = { mod("DamageLucky", "FLAG", true, { type = "Condition", var = "CriticalStrike" }) },
 	["critical strikes deal no damage"] = { mod("Damage", "MORE", -100, { type = "Condition", var = "CriticalStrike" }) },
 	["critical strike chance is increased by uncapped lightning resistance"] = { mod("CritChance", "INC", 1, { type = "PerStat", stat = "LightningResistTotal", div = 1 }) },
 	["critical strike chance is increased by lightning resistance"] = { mod("CritChance", "INC", 1, { type = "PerStat", stat = "LightningResist", div = 1 }) },
@@ -1657,6 +1658,9 @@ local specialModList = {
 	["transfiguration of body"] = { flag("TransfigurationOfBody") },
 	["transfiguration of mind"] = { flag("TransfigurationOfMind") },
 	["transfiguration of soul"] = { flag("TransfigurationOfSoul") },
+	["your damage with hits is lucky"] = { flag("DamageLucky") },
+	["nearby allies' damage with hits is lucky"] = { mod("ExtraAura", "LIST", { onlyAllies = true, mod = flag("DamageLucky") } ) },
+	                                              --{ mod("ExtraAura", "LIST", { onlyAllies = true, mod = mod("Defences", "INC", num) } ) }
 	-- Skill-specific enchantment modifiers
 	["(%d+)%% increased decoy totem life"] = function(num) return { mod("TotemLife", "INC", num, { type = "SkillName", skillName = "Decoy Totem" }) } end,
 	["(%d+)%% increased ice spear critical strike chance in second form"] = function(num) return { mod("CritChance", "INC", num, { type = "SkillName", skillName = "Ice Spear" }, { type = "SkillPart", skillPart = 2 }) } end,
@@ -1683,12 +1687,6 @@ local specialModList = {
 	["socketed lightning spells [hd][ae][va][el] (%d+)%% increased spell damage if triggered"] = { },
 	["manifeste?d? dancing dervish disables both weapon slots"] = { },
 	["manifeste?d? dancing dervish dies when rampage ends"] = { },
-	
-	-- Legion jewel
-	["bathed in the blood of %d+ sacrificed in the name of xibaqua"] = { mod("GrantedPassive", "LIST", "Divine Flesh") },
-	["bathed in the blood of %d+ sacrificed in the name of doryani"] = { mod("GrantedLegionPassive", "LIST", "vaal_keystone_2") },
-	["bathed in the blood of %d+ sacrificed in the name of zerphi"]  = { mod("GrantedLegionPassive", "LIST", "vaal_keystone_3") },
-	
 }
 local keystoneList = {
 	-- List of keystones that can be found on uniques
