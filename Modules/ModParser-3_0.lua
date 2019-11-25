@@ -2085,29 +2085,18 @@ local jewelThresholdFuncs = {
 -- Legion Keystone functions
 local jewelLegionKeystoneFuncs = {
 	["Denoted service of 4250 dekhara in the akhara of Deshret"] = function(node, out, data)
-		if node and node.type == "Keystone" then
-
-			--[[
-			-- if the keystone has mods, clear them first
-			if #out > 0 then
-				out:NewMod("PassiveSkillHasNoEffect", "FLAG", true, data.modSource)
-				ConPrintf("Negated "..node.dn)
-			else
-				-- if it has no mods, they've already been cleared and we're ok to add the new mods
-				--out:NewMod("maraketh_keystone_1", "FLAG", true, data.modSource)
-				ConPrintf(node.dn.." grants Wind Dancer")
-				out:NewMod("GrantedPassive", "LIST", "Wind Dancer", data.modSource)
+		if node then
+			if node.type == "Keystone" then
+				data.conquered = data.conquered or {}
+				data.conquered[node.id] = "maraketh_keystone_1"
 			end
-			]]
-
-			local old = node.overrideToOtherNode
-
-			node.overrideToOtherNode = "maraketh_keystone_1"
-
-			if old ~= node.overrideToOtherNode then
-				ConPrintf("Conquering "..node.dn.." => "..node.overrideToOtherNode)
+		else
+			for from, to in pairs(data.conquered) do
+				out:NewMod("ConquerNode", "LIST", {
+					["from"] = from,
+					["to"] = to,
+				})
 			end
-			--ConPrintf(debug.traceback())
 		end
 	end
 }

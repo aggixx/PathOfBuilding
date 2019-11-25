@@ -65,19 +65,14 @@ end
 function calcs.buildModListForNode(env, node)
 	local modList = new("ModList")
 
-	if node.overrideToOtherNode then -- Legion Keystone
-		--ConPrintf("overriding mod list for "..node.dn)
-		local oNode = env.spec.nodes[node.overrideToOtherNode];
+	-- node from which to make the modList
+	-- If the node is conquered by a legion timeless jewel, return the mod list of the new node instead
+	local modNode = env.spec.conqueredNodes[node.id] or node;
 
-		if oNode then
-			modList:AddMod(oNode.keystoneMod)
-		end
+	if modNode.type == "Keystone" then
+		modList:AddMod(modNode.keystoneMod)
 	else
-		if node.type == "Keystone" then
-			modList:AddMod(node.keystoneMod)
-		else
-			modList:AddList(node.modList)
-		end
+		modList:AddList(modNode.modList)
 	end
 
 	-- Run first pass radius jewels
@@ -646,6 +641,31 @@ function calcs.initEnv(build, mode, override)
 	-- Merge modifiers for allocated passives
 	env.modDB:AddList(calcs.buildModListForNodeList(env, nodes, true))
 
+	-- Conquer passive nodes (legion timeless jewel)
+	-- Save a copy of the conquered nodes, so we can restore it at the end of the calculation
+	local oldConqueredNodes = {}
+	if override.repItem ~= nil then
+		for key, node in pairs(env.spec.conqueredNodes) do
+			oldConqueredNodes[key] = node.id
+		end
+	end
+
+	-- Reset conquered nodes
+	for key, value in pairs(env.spec.conqueredNodes) do
+		env.spec.conqueredNodes[key] = nil
+	end
+	--ConPrintf("Wiped conqueredNodes")
+	--ConPrintf(debug.traceback())
+	--prettyPrintTable(override)
+	
+	for _, conquerData in pairs(env.modDB:List(nil, "ConquerNode")) do
+		local nodeFrom = env.spec.nodes[conquerData.from]
+		local nodeTo = env.spec.nodes[conquerData.to]
+
+		--ConPrintf("Processing ConquerNode mod for "..nodeFrom.dn)
+		env.spec:ConquerNode(nodeFrom, nodeTo)
+	end
+
 	-- Determine main skill group
 	if env.mode == "CALCS" then
 		env.calcsInput.skill_number = m_min(m_max(#build.skillsTab.socketGroupList, 1), env.calcsInput.skill_number or 1)
@@ -851,6 +871,13 @@ function calcs.initEnv(build, mode, override)
 	env.auxSkillList = { }
 	for _, activeSkill in pairs(env.player.activeSkillList) do
 		calcs.buildActiveSkillModList(env, activeSkill)
+	end
+
+	-- If this env is being generated for a comparison that removes a timeless jewel, we must cleanup after ourself by reconquering those nodes.
+	if override.repItem ~= nil then
+		for key, nodeId in pairs(oldConqueredNodes) do
+			env.spec.conqueredNodes[key] = env.spec.nodes[nodeId]
+		end
 	end
 
 	return env

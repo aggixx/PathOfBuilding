@@ -394,15 +394,8 @@ function PassiveTreeViewClass:Draw(build, viewPort, inputEvents)
 					end
 				end
 			else
-				local displayNode = node;
-
-				-- if the node is overridden to another node (such as for legion timeless jewel transformation),
-				-- show art for that node instead;
-				if node.overrideToOtherNode then
-					displayNode = spec.nodes[node.overrideToOtherNode];
-					--ConPrintf("Overriding "..node.dn.." art to "..displayNode.dn)
-					--ConPrintf(debug.traceback())
-				end
+				-- If the node is conquered by a legion timeless jewel, show art for that node instead
+				local displayNode = build.spec.conqueredNodes[node.id] or node;
 
 				-- Normal node (includes keystones and notables)
 				base = displayNode.sprites[displayNode.type:lower()..(isAlloc and "Active" or "Inactive")] 
@@ -648,7 +641,7 @@ function PassiveTreeViewClass:AddNodeTooltip(tooltip, node, build)
 	-- if the node is overridden to another node (such as for legion timeless jewel transformation),
 	-- show select information for that node instead:
 	-- name, description, reminder text
-	local displayNode = build.spec.nodes[node.overrideToOtherNode] or node;
+	local displayNode = build.spec.conqueredNodes[node.id] or node;
 	
 	-- Node name
 	self:AddNodeName(tooltip, displayNode, build)

@@ -48,6 +48,10 @@ local PassiveSpecClass = newClass("PassiveSpec", "UndoHandler", function(self, b
 	-- Keys are node IDs, values are items
 	self.jewels = { }
 
+	-- Table of currently conquered nodes
+	-- Keys are node ID of the node being conquered, values are resulting node
+	self.conqueredNodes = { }
+
 	self:SelectClass(0)
 end)
 
@@ -329,51 +333,15 @@ function PassiveSpecClass:DeallocNode(node)
 		self.allocNodes[depNode.id] = nil
 	end
 
-	if node.type == "Socket" then
-		-- Clear node overrides (such as passives being "conquered" by a Legion timeless jewel)
-		--ConPrintf(debug.traceback())
-
-		local jewelItemId = self.jewels[node.id]
-		local jewel = self.build.itemsTab.items[jewelItemId]
-
-		if jewel then
-			ConPrintf("Unconquering nodes within "..data.jewelRadius[jewel.jewelRadiusIndex].label.." radius...")
-
-			for adjNodeId, _adjNode in pairs(node.nodesInRadius[jewel.jewelRadiusIndex]) do
-				local adjNode = self.nodes[adjNodeId]
-
-				if adjNode.overrideToOtherNode then
-					ConPrintf("Unconquered "..adjNode.dn)
-					adjNode.overrideToOtherNode = nil;
-				end
-			end
-		end
-	end
-
 	-- Rebuild all paths and dependancies for all allocated nodes
 	self:BuildAllDependsAndPaths()
 end
 
---[[
-function PassiveSpecClass:ConquerNode(node)
+function PassiveSpecClass:ConquerNode(nodeFrom, nodeTo)
+	ConPrintf("! Conquering "..nodeFrom.dn.." => "..nodeTo.dn)
 
+	self.conqueredNodes[nodeFrom.id] = nodeTo
 end
-
-function PassiveSpecClass:UnconquerNode(node)
-	if node.overrideToOtherNode then
-		ConPrintf("Unconquered "..node.dn)
-		node.overrideToOtherNode = nil;
-	end
-end
-
-function PassiveSpecClass:ConquerSocket(node)
-
-end
-
-function PassiveSpecClass:UnconquerSocket(node)
-
-end
---]]
 
 -- Count the number of allocated nodes and allocated ascendancy nodes
 function PassiveSpecClass:CountAllocNodes()
