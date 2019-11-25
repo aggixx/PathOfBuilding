@@ -759,6 +759,9 @@ function calcs.offence(env, actor, activeSkill)
 		else
 			local enemyEvasion = round(calcLib.val(enemyDB, "Evasion"))
 			output.HitChance = calcs.hitChance(enemyEvasion, output.Accuracy)
+			if skillModList:Flag(cfg, "Condition:Blind") then
+				output.HitChance = output.HitChance * 0.5
+			end
 			if breakdown then
 				breakdown.HitChance = {
 					"Enemy level: "..env.enemyLevel..(env.configInput.enemyLevel and " ^8(overridden from the Configuration tab" or " ^8(can be overridden in the Configuration tab)"),

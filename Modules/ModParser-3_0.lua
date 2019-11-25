@@ -1053,6 +1053,10 @@ local specialModList = {
 	["energy shield protects mana instead of life"] = { flag("EnergyShieldProtectsMana") },
 	["modifiers to critical strike multiplier also apply to damage over time multiplier for ailments from critical strikes at (%d+)%% of their value"] = function(num) return { mod("CritMultiplierAppliesToDegen", "BASE", num) } end,
 	["your bleeding does not deal extra damage while the enemy is moving"] = { flag("Condition:NoExtraBleedDamageToMovingEnemy") },
+	-- Legion Keystones
+	["your damage with critical strikes is lucky"] = { mod("DamageLucky", "FLAG", true, { type = "Condition", var = "CriticalStrike" }) },
+	["you are blind"] = { flag("Condition:Blind") },
+	["(%d+)%% more melee critical strike chance while blinded"] = function(num) return { mod("CritChance", "MORE", num, { type = "Condition", var = "Blind" }, ModFlag.Melee) } end,
 	-- Ascendant
 	["grants (%d+) passive skill points?"] = function(num) return { mod("ExtraPoints", "BASE", num) } end,
 	["can allocate passives from the %a+'s starting point"] = { },
@@ -1318,7 +1322,6 @@ local specialModList = {
 	["your critical strike chance is lucky"] = { flag("CritChanceLucky") },
 	["your critical strike chance is lucky while focussed"] = { flag("CritChanceLucky", { type = "Condition", var = "Focused"}) },
 	["your critical strikes do not deal extra damage"] = { flag("NoCritMultiplier") },
-	["your damage with critical strikes is lucky"] = { mod("DamageLucky", "FLAG", true, { type = "Condition", var = "CriticalStrike" }) },
 	["critical strikes deal no damage"] = { mod("Damage", "MORE", -100, { type = "Condition", var = "CriticalStrike" }) },
 	["critical strike chance is increased by uncapped lightning resistance"] = { mod("CritChance", "INC", 1, { type = "PerStat", stat = "LightningResistTotal", div = 1 }) },
 	["critical strike chance is increased by lightning resistance"] = { mod("CritChance", "INC", 1, { type = "PerStat", stat = "LightningResist", div = 1 }) },
