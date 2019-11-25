@@ -1944,25 +1944,6 @@ local jewelOtherFuncs = {
 			end
 		end
 	end,
-	-- fixme
-	--[[
-	["Bathed in the blood of 99 sacrificed in the name of Xibaqua"]                    = getLegionKeystoneConv("Divine Flesh"),
-	["Bathed in the blood of (100-8000) sacrificed in the name of Xibaqua"]            = getLegionKeystoneConv("Divine Flesh"),
-	["Bathed in the blood of (100-8000) sacrificed in the name of Zerphi"]             = getLegionKeystoneConv("Eternal Youth"),
-	["Bathed in the blood of (100-8000) sacrificed in the name of Doryani"]            = getLegionKeystoneConv("Corrupted Soul"),
-	["Commissioned (2000-160000) coins to commemorate Cadiro"]                         = getLegionKeystoneConv("Supreme Decadence"),
-	["Commissioned (2000-160000) coins to commemorate Victario"]                       = getLegionKeystoneConv("Supreme Grandstanding"),
-	["Commissioned (2000-160000) coins to commemorate Chitus"]                         = getLegionKeystoneConv("Supreme Ego"),
-	["Denoted service of (500-8000) dekhara in the akhara of Deshret"]                 = getLegionKeystoneConv("Wind Dancer"),
-	["Denoted service of (500-8000) dekhara in the akhara of Asenath"]                 = getLegionKeystoneConv("Dance with Death"),
-	["Denoted service of (500-8000) dekhara in the akhara of Nasima"]                  = getLegionKeystoneConv("Second Sight"),
-	["Commanded leadership over (10000-18000) warriors under Kaom"]                    = getLegionKeystoneConv("Strength of Blood"),
-	["Commanded leadership over (10000-18000) warriors under Rakiata"]                 = getLegionKeystoneConv("Tempered by War"),
-	["Commanded leadership over (10000-18000) warriors under Kiloava"]                 = getLegionKeystoneConv("Glancing Blows"),
-	["Carved to glorify (2000-10000) new faithful converted by High Templar Venarius"] = getLegionKeystoneConv("The Agnostic"),
-	["Carved to glorify (2000-10000) new faithful converted by High Templar Dominus"]  = getLegionKeystoneConv("Inner Conviction"),
-	["Carved to glorify (2000-10000) new faithful converted by High Templar Avarius"]  = getLegionKeystoneConv("Power of Purpose"),
-	]]
 }
 
 -- Radius jewels that modify the jewel itself based on nearby allocated nodes
@@ -2082,13 +2063,13 @@ local jewelThresholdFuncs = {
 	--[""] = getThreshold("", "", "", , { type = "SkillName", skillName = "" }),
 }
 
--- Legion Keystone functions
-local jewelLegionKeystoneFuncs = {
-	["Denoted service of 4250 dekhara in the akhara of Deshret"] = function(node, out, data)
+
+local function legionConquerFunc(keystone, node, out, data)
+	return function(node, out, data)
 		if node then
 			if node.type == "Keystone" then
 				data.conquered = data.conquered or {}
-				data.conquered[node.id] = "maraketh_keystone_1"
+				data.conquered[node.id] = keystone
 			end
 		else
 			for from, to in pairs(data.conquered) do
@@ -2099,6 +2080,25 @@ local jewelLegionKeystoneFuncs = {
 			end
 		end
 	end
+end
+
+-- List of jewel functions with pattern matching
+local jewelMatchFuncList = {
+	["denoted service of (%d+) dekhara in the akhara of deshret"]               = { func = legionConquerFunc("maraketh_keystone_1"), type = "Conquer" },
+	["denoted service of (%d+) dekhara in the akhara of asenath"]               = { func = legionConquerFunc("maraketh_keystone_2"), type = "Conquer" },
+	["denoted service of (%d+) dekhara in the akhara of nasima"]                = { func = legionConquerFunc("maraketh_keystone_3"), type = "Conquer" },
+	["commissioned (%d+) coins to commemorate cadiro"]                          = { func = legionConquerFunc("eternal_keystone_1"), type = "Conquer" },
+	["commissioned (%d+) coins to commemorate victario"]                        = { func = legionConquerFunc("eternal_keystone_2"), type = "Conquer" },
+	["commissioned (%d+) coins to commemorate chitus"]                          = { func = legionConquerFunc("eternal_keystone_3"), type = "Conquer" },
+	["bathed in the blood of (%d+) sacrificed in the name of xibaqua"]          = { func = legionConquerFunc("vaal_keystone_1"), type = "Conquer" },
+	["bathed in the blood of (%d+) sacrificed in the name of zerphi"]           = { func = legionConquerFunc("vaal_keystone_2"), type = "Conquer" },
+	["bathed in the blood of (%d+) sacrificed in the name of doryani"]          = { func = legionConquerFunc("vaal_keystone_3"), type = "Conquer" },
+	["commanded leadership over (%d+) warriors under kaom"]                     = { func = legionConquerFunc("karui_keystone_1"), type = "Conquer" },
+	["commanded leadership over (%d+) warriors under rakiata"]                  = { func = legionConquerFunc("karui_keystone_2"), type = "Conquer" },
+	["commanded leadership over (%d+) warriors under kiloava"]                  = { func = legionConquerFunc("karui_keystone_3"), type = "Conquer" },
+	["carved to glorify (%d+) new faithful converted by high templar venarius"] = { func = legionConquerFunc("templar_keystone_1"), type = "Conquer" },
+	["carved to glorify (%d+) new faithful converted by high templar dominus"]  = { func = legionConquerFunc("templar_keystone_1"), type = "Conquer" },
+	["carved to glorify (%d+) new faithful converted by high templar avarius"]  = { func = legionConquerFunc("templar_keystone_1"), type = "Conquer" },
 }
 
 -- Unified list of jewel functions
@@ -2114,9 +2114,6 @@ for k, v in pairs(jewelSelfUnallocFuncs) do
 end
 for k, v in pairs(jewelThresholdFuncs) do
 	jewelFuncList[k:lower()] = { func = v, type = "Threshold" }
-end
-for k, v in pairs(jewelLegionKeystoneFuncs) do
-	jewelFuncList[k:lower()] = { func = v, type = "LegionKeystone" }
 end
 
 -- Scan a line for the earliest and longest match from the pattern list
@@ -2148,7 +2145,7 @@ end
 local function parseMod(line, order)
 	-- Check if this is a special modifier
 	local lineLower = line:lower()
-	local jewelFunc = jewelFuncList[lineLower]
+	local jewelFunc = jewelFuncList[lineLower] or scan(line, jewelMatchFuncList)
 	if jewelFunc then
 		return { mod("JewelFunc", "LIST", jewelFunc) }
 	end

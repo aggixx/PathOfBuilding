@@ -77,7 +77,7 @@ function calcs.buildModListForNode(env, node)
 
 	-- Run first pass radius jewels
 	for _, rad in pairs(env.radiusJewelList) do
-		if (rad.type == "Other" or rad.type == "LegionKeystone") and rad.nodes[node.id] then
+		if rad.type == "Other" and rad.nodes[node.id] then
 			rad.func(node, modList, rad.data)
 		end
 	end
@@ -96,7 +96,7 @@ function calcs.buildModListForNode(env, node)
 
 	-- Run second pass radius jewels
 	for _, rad in pairs(env.radiusJewelList) do
-		if rad.nodes[node.id] and (rad.type == "Threshold" or (rad.type == "Self" and env.allocNodes[node.id]) or (rad.type == "SelfUnalloc" and not env.allocNodes[node.id])) or rad.type == "LegionKeystone" then
+		if rad.nodes[node.id] and (rad.type == "Threshold" or (rad.type == "Self" and env.allocNodes[node.id]) or (rad.type == "SelfUnalloc" and not env.allocNodes[node.id])) or rad.type == "Conquer" then
 			rad.func(node, modList, rad.data)
 		end
 	end
@@ -643,16 +643,20 @@ function calcs.initEnv(build, mode, override)
 
 	-- Conquer passive nodes (legion timeless jewel)
 	-- Save a copy of the conquered nodes, so we can restore it at the end of the calculation
+	--[[
 	local oldConqueredNodes = {}
-	if override.repItem ~= nil then
+	if next(override) ~= nil then
 		for key, node in pairs(env.spec.conqueredNodes) do
 			oldConqueredNodes[key] = node.id
 		end
 	end
+	--]]
 
 	-- Reset conquered nodes
-	for key, value in pairs(env.spec.conqueredNodes) do
-		env.spec.conqueredNodes[key] = nil
+	if next(override) == nil then
+		for key, value in pairs(env.spec.conqueredNodes) do
+			env.spec.conqueredNodes[key] = nil
+		end
 	end
 	--ConPrintf("Wiped conqueredNodes")
 	--ConPrintf(debug.traceback())
@@ -874,11 +878,13 @@ function calcs.initEnv(build, mode, override)
 	end
 
 	-- If this env is being generated for a comparison that removes a timeless jewel, we must cleanup after ourself by reconquering those nodes.
-	if override.repItem ~= nil then
+	--[[
+	if next(override) ~= nil then
 		for key, nodeId in pairs(oldConqueredNodes) do
 			env.spec.conqueredNodes[key] = env.spec.nodes[nodeId]
 		end
 	end
+	--]]
 
 	return env
 end
