@@ -476,6 +476,14 @@ function calcs.offence(env, actor, activeSkill)
 		end
 	end
 
+	if skillFlags.aura then
+		output.AuraEffectMod = calcLib.mod(skillModList, skillCfg, "AuraEffect")
+	end
+
+	if skillFlags.curse then
+		output.CurseEffectMod = calcLib.mod(skillModList, skillCfg, "CurseEffect")
+	end
+
 	-- Skill duration
 	local debuffDurationMult
 	if env.mode_effective then
