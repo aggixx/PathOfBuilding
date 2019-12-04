@@ -2748,10 +2748,6 @@ skills["FlickerStrike"] = {
 		["flicker_strike_buff_movement_speed_+%"] = {
 			mod("MovementSpeed", "INC", nil, 0, 0, { type = "GlobalEffect", effectType = "Buff" }),
 		},
-		["flicker_strike_buff_duration_ms"] = {
-			skill("duration", nil),
-			div = 1000,
-		},
 	},
 	baseFlags = {
 		attack = true,
