@@ -2071,9 +2071,10 @@ local jewelThresholdFuncs = {
 
 local function legionConquerFunc(keystone, node, out, data)
 	return function(node, out, data)
+		data.conquered = data.conquered or {}
+
 		if node then
 			if node.type == "Keystone" then
-				data.conquered = data.conquered or {}
 				data.conquered[node.id] = keystone
 			end
 		else
@@ -2102,8 +2103,8 @@ local jewelMatchFuncList = {
 	["commanded leadership over (%d+) warriors under rakiata"]                  = { func = legionConquerFunc("karui_keystone_2"), type = "Conquer" },
 	["commanded leadership over (%d+) warriors under kiloava"]                  = { func = legionConquerFunc("karui_keystone_3"), type = "Conquer" },
 	["carved to glorify (%d+) new faithful converted by high templar venarius"] = { func = legionConquerFunc("templar_keystone_1"), type = "Conquer" },
-	["carved to glorify (%d+) new faithful converted by high templar dominus"]  = { func = legionConquerFunc("templar_keystone_1"), type = "Conquer" },
-	["carved to glorify (%d+) new faithful converted by high templar avarius"]  = { func = legionConquerFunc("templar_keystone_1"), type = "Conquer" },
+	["carved to glorify (%d+) new faithful converted by high templar dominus"]  = { func = legionConquerFunc("templar_keystone_2"), type = "Conquer" },
+	["carved to glorify (%d+) new faithful converted by high templar avarius"]  = { func = legionConquerFunc("templar_keystone_3"), type = "Conquer" },
 }
 
 -- Unified list of jewel functions
