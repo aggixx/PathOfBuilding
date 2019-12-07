@@ -2117,6 +2117,12 @@ local jewelMatchFuncList = {
 	["carved to glorify (%d+) new faithful converted by high templar venarius"] = { func = legionConquerFunc("templar_keystone_1"), type = "Conquer" },
 	["carved to glorify (%d+) new faithful converted by high templar dominus"]  = { func = legionConquerFunc("templar_keystone_2"), type = "Conquer" },
 	["carved to glorify (%d+) new faithful converted by high templar avarius"]  = { func = legionConquerFunc("templar_keystone_3"), type = "Conquer" },
+	["passive skills in radius also grant: traps and mines deal (%d+) to (%d+) added physical damage"] = { func = function(node, out, data, caps)
+		if node and caps then
+			out:NewMod("PhysicalMin", "BASE", caps[1], nil, 0, bor(KeywordFlag.Trap, KeywordFlag.Mine))
+			out:NewMod("PhysicalMax", "BASE", caps[2], nil, 0, bor(KeywordFlag.Trap, KeywordFlag.Mine))
+		end
+	end, type = "Other"},
 }
 
 -- Unified list of jewel functions
@@ -2163,9 +2169,15 @@ end
 local function parseMod(line, order)
 	-- Check if this is a special modifier
 	local lineLower = line:lower()
-	local jewelFunc = jewelFuncList[lineLower] or scan(line, jewelMatchFuncList)
+	local jewelFunc = jewelFuncList[lineLower]
 	if jewelFunc then
 		return { mod("JewelFunc", "LIST", jewelFunc) }
+	end
+	local jewelMatchFunc, _, cap = scan(line, jewelMatchFuncList)
+	if jewelMatchFunc and cap then
+		local jmfCopy = copyTable(jewelMatchFunc)
+		jmfCopy.caps = cap;
+		return { mod("JewelFunc", "LIST", jmfCopy) }
 	end
 	if unsupportedModList[lineLower] then
 		return { }, line

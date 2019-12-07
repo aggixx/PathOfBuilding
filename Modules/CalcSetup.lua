@@ -78,7 +78,7 @@ function calcs.buildModListForNode(env, node)
 	-- Run first pass radius jewels
 	for _, rad in pairs(env.radiusJewelList) do
 		if rad.type == "Other" and rad.nodes[node.id] then
-			rad.func(node, modList, rad.data)
+			rad.func(node, modList, rad.data, rad.caps)
 		end
 	end
 
@@ -97,7 +97,7 @@ function calcs.buildModListForNode(env, node)
 	-- Run second pass radius jewels
 	for _, rad in pairs(env.radiusJewelList) do
 		if rad.nodes[node.id] and (rad.type == "Threshold" or (rad.type == "Self" and env.allocNodes[node.id]) or (rad.type == "SelfUnalloc" and not env.allocNodes[node.id])) or rad.type == "Conquer" then
-			rad.func(node, modList, rad.data)
+			rad.func(node, modList, rad.data, rad.caps)
 		end
 	end
 
@@ -410,7 +410,8 @@ function calcs.initEnv(build, mode, override)
 						item = item,
 						nodeId = slot.nodeId,
 						attributes = node.attributesInRadius[item.jewelRadiusIndex],
-						data = { }
+						data = { },
+						caps = func.caps,
 					})
 					if func.type ~= "Self" then
 						-- Add nearby unallocated nodes to the extra node list

@@ -2821,8 +2821,6 @@ skills["SupportChaosAttacks"] = {
 	addSkillTypes = { SkillType.Duration, },
 	excludeSkillTypes = { },
 	statDescriptionScope = "gem_stat_descriptions",
-
-	},
 	baseMods = {
 		mod("ChaosDamageTaken", "INC", 6, 0, 0, { type = "GlobalEffect", effectType = "Debuff", effectName = "Withered", effectStackVar = "WitheredStackCount", effectStackLimit = 15 }),
 	},
