@@ -2119,8 +2119,8 @@ local jewelMatchFuncList = {
 	["carved to glorify (%d+) new faithful converted by high templar avarius"]  = { func = legionConquerFunc("templar_keystone_3"), type = "Conquer" },
 	["passive skills in radius also grant: traps and mines deal (%d+) to (%d+) added physical damage"] = { func = function(node, out, data, caps)
 		if node and caps then
-			out:NewMod("PhysicalMin", "BASE", caps[1], nil, 0, bor(KeywordFlag.Trap, KeywordFlag.Mine))
-			out:NewMod("PhysicalMax", "BASE", caps[2], nil, 0, bor(KeywordFlag.Trap, KeywordFlag.Mine))
+			out:NewMod("PhysicalMin", "BASE", tonumber(caps[1]), data.modSource, 0, bor(KeywordFlag.Trap, KeywordFlag.Mine))
+			out:NewMod("PhysicalMax", "BASE", tonumber(caps[2]), data.modSource, 0, bor(KeywordFlag.Trap, KeywordFlag.Mine))
 		end
 	end, type = "Other"},
 }
